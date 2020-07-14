@@ -9,6 +9,7 @@ const production = !process.env.ROLLUP_WATCH;
 
 const minifyHtml = (input, output, options) => ({
   generateBundle() {
+    if (!fs.existsSync('dist')) fs.mkdirSync('dist');
     fs.writeFileSync(
       output,
       minify(fs.readFileSync(input).toString(), options),
