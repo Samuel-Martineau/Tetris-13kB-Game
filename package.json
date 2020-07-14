@@ -1,0 +1,24 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
+    "flow-bin": "^0.129.0",
+    "html-minifier": "^4.0.0",
+    "rollup": "^2.21.0",
+    "rollup-plugin-flow": "^1.1.1",
+    "rollup-plugin-terser": "^6.1.0",
+    "typescript": "^3.9.6"
+  },
+  "scripts": {
+    "dev": "rollup -cw",
+    "prod": "rollup -c",
+    "flow": "flow"
+  },
+  "dependencies": {
+    "kontra": "^6.9.1"
+  }
+}
