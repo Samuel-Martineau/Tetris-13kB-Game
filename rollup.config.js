@@ -19,7 +19,7 @@ const minifyHtml = (input, output, options) => ({
 export default {
   input: 'src/script.js',
   output: {
-    file: 'dist/.js',
+    file: 'dist/bundle.js',
     format: 'iife',
     sourcemap: false,
   },
