@@ -1,5 +1,5 @@
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import flow from 'rollup-plugin-flow';
 import fs from 'fs';
 import { minify } from 'html-minifier';
 import resolve from '@rollup/plugin-node-resolve';
@@ -25,7 +25,10 @@ export default {
     sourcemap: false,
   },
   plugins: [
-    flow(),
+    babel({
+      presets: ['@babel/preset-flow'],
+      plugins: ['@babel/plugin-proposal-nullish-coalescing-operator', 'macros'],
+    }),
     resolve(),
     commonjs(),
     minifyHtml('src/index.html', 'dist/index.html', {

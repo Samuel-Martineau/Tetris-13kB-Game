@@ -1,16 +1,41 @@
 <title>13 KB Game</title>
 <canvas></canvas>
 <style>
+  @keyframes bg-animation {
+    0% {
+      background-position: left;
+    }
+    100% {
+      background-position: right;
+    }
+  }
+
   html,
   body {
     padding: 0;
     margin: 0;
+    background: linear-gradient(
+      45deg,
+      #0652dd,
+      #ea2027,
+      #b53471,
+      #1289a7,
+      #009432
+    );
+    background-size: 400%;
+    animation: bg-animation 20s infinite alternate;
+    height: 100vh;
+    width: 100vw;
   }
   canvas {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    border: 5px solid black;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
 </style>
 <script src="bundle.js"></script>
