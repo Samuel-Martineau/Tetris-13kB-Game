@@ -17,8 +17,8 @@
 }
 
 @font-face {
-  font-family: "MinecraftTen";
-  src: url("assets/MinecraftTen.ttf") format("truetype");
+  font-family: 'MinecraftTen';
+  src: url('assets/MinecraftTen.ttf') format('truetype');
 }
 
 html,
@@ -38,23 +38,6 @@ body {
   height: 100vh;
   width: 100vw;
   text-align: center;
-}
-
-h1 {
-  position: absolute;
-  width: 100vw;
-  margin: auto;
-  top: 15px;
-  color: white;
-  font-family: "MinecraftTen";
-  font-style: italic;
-  font-size: 75px;
-  filter: blur(0px);
-  user-select: none;
-}
-
-h1#blur {
-  filter: blur(10px);
 }
 
 canvas {

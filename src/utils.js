@@ -52,7 +52,7 @@ export function square(
   color: string,
   ctx: CanvasRenderingContext2D,
 ) {
-  roundRect(x, y, width, height, 15, ctx);
+  roundRect(x, y, width, height, ctx.canvas.width / 27, ctx);
   ctx.fillStyle = color;
   ctx.fill();
 }
