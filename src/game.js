@@ -1,10 +1,10 @@
 // @flow
 
-import { generateGrid, line, randomInArray, square } from './utils';
+import { generateGrid, line, randomInArray, square } from "./utils";
 
-import Tetromino from './tetromino';
-import ms from 'ms.macro';
-import { tetrominos } from './tetrominos';
+import Tetromino from "./tetromino";
+import ms from "ms.macro";
+import { tetrominos } from "./tetrominos";
 
 export default class Game {
   context: CanvasRenderingContext2D;
@@ -33,7 +33,7 @@ export default class Game {
     this.tetromino.setPos(
       Math.floor(this.cols / 2) -
         Math.floor(this.tetromino.shape[0].length / 2),
-      0,
+      0
     );
   }
 
@@ -50,12 +50,12 @@ export default class Game {
 
   update() {
     if (this.done) return;
-    if (this.lastGoDown.getTime() + ms('0.001s') < Date.now()) {
+    if (this.lastGoDown.getTime() + ms("0.5s") < Date.now()) {
       if (
         this.tetromino.canBeThere(
           this.tetromino.x,
           this.tetromino.y + 1,
-          this.staticGrid,
+          this.staticGrid
         )
       )
         this.tetromino.goDown();
@@ -66,7 +66,7 @@ export default class Game {
           !this.tetromino.canBeThere(
             this.tetromino.x,
             this.tetromino.y,
-            this.staticGrid,
+            this.staticGrid
           )
         )
           this.done = true;
@@ -88,8 +88,8 @@ export default class Game {
           y * ySpacing,
           xSpacing,
           ySpacing,
-          color ?? 'white',
-          this.context,
+          color ?? "#242424",
+          this.context
         );
       });
     });
@@ -102,17 +102,17 @@ export default class Game {
             xSpacing,
             ySpacing,
             color,
-            this.context,
+            this.context
           );
         }
       });
     });
 
-    for (let i = 0; i < this.cols; i++) {
-      line((i + 1) * xSpacing, 0, (i + 1) * xSpacing, height, this.context);
+    for (let i = 1; i < this.cols; i++) {
+      line(i * xSpacing, 0, i * xSpacing, height, this.context);
     }
-    for (let i = 0; i < this.rows; i++) {
-      line(0, (i + 1) * ySpacing, height, (i + 1) * ySpacing, this.context);
+    for (let i = 1; i < this.rows; i++) {
+      line(0, i * ySpacing, width, i * ySpacing, this.context);
     }
   }
 }
