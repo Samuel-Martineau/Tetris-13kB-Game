@@ -41,11 +41,25 @@ export default class Game {
         case "ArrowUp":
           break;
         case "ArrowLeft":
-          if (!this.tetromino.isOnLeftSide(this.staticGrid))
+          if (
+            !this.tetromino.isOnLeftSide(this.staticGrid) &&
+            this.tetromino.canBeThere(
+              this.tetromino.x - 1,
+              this.tetromino.y,
+              this.staticGrid
+            )
+          )
             this.tetromino.goLeft();
           break;
         case "ArrowRight":
-          if (!this.tetromino.isOnRightSide(this.staticGrid))
+          if (
+            !this.tetromino.isOnRightSide(this.staticGrid) &&
+            this.tetromino.canBeThere(
+              this.tetromino.x + 1,
+              this.tetromino.y,
+              this.staticGrid
+            )
+          )
             this.tetromino.goRight();
           break;
       }
