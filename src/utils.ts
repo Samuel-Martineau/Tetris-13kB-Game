@@ -7,7 +7,7 @@ export function roundRect(
   width: number,
   height: number,
   radius: number,
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D
 ) {
   if (width < 2 * radius) radius = width / 2;
   if (height < 2 * radius) radius = height / 2;
@@ -25,10 +25,10 @@ export function line(
   y1: number,
   x2: number,
   y2: number,
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D
 ) {
   ctx.beginPath();
-  ctx.lineWidth = 5;
+  ctx.lineWidth = ctx.canvas.width / 100;
   ctx.moveTo(x1, y1);
   ctx.lineTo(x2, y2);
   ctx.stroke();
@@ -37,7 +37,7 @@ export function line(
 export function generateGrid<T>(
   cols: number,
   rows: number,
-  val?: T,
+  val?: T
 ): Array<Array<T>> {
   return Array(rows)
     .fill(undefined)
@@ -50,11 +50,56 @@ export function square(
   width: number,
   height: number,
   color: string,
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D
 ) {
-  roundRect(x, y, width, height, ctx.canvas.width / 27, ctx);
+  roundRect(x, y, width, height, ctx.canvas.width / 35, ctx);
   ctx.fillStyle = color;
   ctx.fill();
+}
+
+export function text(
+  font: string,
+  color: string,
+  textAlign: CanvasTextAlign,
+  text: string,
+  x: number,
+  y: number,
+  ctx: CanvasRenderingContext2D
+) {
+  ctx.font = font;
+  ctx.fillStyle = color;
+  ctx.textAlign = textAlign;
+  ctx.fillText(text, x, y);
+}
+
+export function button(
+  title: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  borderSize: number,
+  ctx: CanvasRenderingContext2D,
+  canvas: HTMLCanvasElement
+) {
+  square(
+    x,
+    y - borderSize / 2,
+    width + borderSize,
+    height + borderSize,
+    "white",
+    ctx
+  );
+  square(canvas.width / 2 - width / 2, y, width, height, "#0652dd", ctx);
+  text(
+    `${canvas.width / 13}px MinecraftTen`,
+    "white",
+    "center",
+    title,
+    canvas.width / 2,
+    y + canvas.height / 21.5,
+    ctx
+  );
 }
 
 // From https://stackoverflow.com/a/4550514/9723899
