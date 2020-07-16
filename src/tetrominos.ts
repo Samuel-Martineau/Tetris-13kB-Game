@@ -1,13 +1,12 @@
-// @flow
+// @ts-ignore TS6133
+import Tetromino from "./tetromino.ts";
 
-import Tetromino from './tetromino';
-
-export const I = new Tetromino('#12CBC4', [
+export const I = new Tetromino("#12CBC4", [
   [[1], [1], [1], [1]],
   [[1, 1, 1, 1]],
 ]);
 
-export const J = new Tetromino('#0652DD', [
+export const J = new Tetromino("#0652DD", [
   [
     [0, 1],
     [0, 1],
@@ -28,7 +27,7 @@ export const J = new Tetromino('#0652DD', [
   ],
 ]);
 
-export const L = new Tetromino('#F79F1F', [
+export const L = new Tetromino("#F79F1F", [
   [
     [1, 0],
     [1, 0],
@@ -49,14 +48,14 @@ export const L = new Tetromino('#F79F1F', [
   ],
 ]);
 
-export const O = new Tetromino('#FFC312', [
+export const O = new Tetromino("#FFC312", [
   [
     [1, 1],
     [1, 1],
   ],
 ]);
 
-export const Z = new Tetromino('#EA2027', [
+export const Z = new Tetromino("#EA2027", [
   [
     [1, 1, 0],
     [0, 1, 1],
@@ -68,7 +67,7 @@ export const Z = new Tetromino('#EA2027', [
   ],
 ]);
 
-export const T = new Tetromino('#833471', [
+export const T = new Tetromino("#833471", [
   [
     [0, 1, 0],
     [1, 1, 1],
@@ -89,7 +88,7 @@ export const T = new Tetromino('#833471', [
   ],
 ]);
 
-export const S = new Tetromino('#009432', [
+export const S = new Tetromino("#009432", [
   [
     [0, 1, 1],
     [1, 1, 0],

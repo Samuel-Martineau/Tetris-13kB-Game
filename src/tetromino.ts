@@ -1,6 +1,5 @@
-// @flow
-
-import { generateGrid } from './utils';
+// @ts-ignore TS6133
+import { generateGrid } from "./utils.ts";
 
 export default class Tetromino {
   color: string;
@@ -15,7 +14,7 @@ export default class Tetromino {
     shapes: Array<Array<Array<any>>>,
     currentShapeIndex?: number,
     x?: number,
-    y?: number,
+    y?: number
   ) {
     this.currentShapeIndex = currentShapeIndex ?? 0;
     this.x = x ?? 0;
@@ -33,7 +32,7 @@ export default class Tetromino {
 
   draw(
     movingGrid: Array<Array<any>>,
-    staticGrid: Array<Array<any>>,
+    staticGrid: Array<Array<any>>
   ): Array<Array<any>> {
     // Clear the moving grid
     movingGrid = generateGrid(movingGrid[0].length, movingGrid.length, null);
@@ -48,7 +47,7 @@ export default class Tetromino {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         if (this.shape[y][x]) {
-          movingGrid[y + ghostY][x + this.x] = 'white';
+          movingGrid[y + ghostY][x + this.x] = "white";
           movingGrid[y + this.y][x + this.x] = this.color;
         }
       }
@@ -71,7 +70,7 @@ export default class Tetromino {
   canBeThere(
     xToTest: number,
     yToTest: number,
-    grid: Array<Array<any>>,
+    grid: Array<Array<any>>
   ): boolean {
     if (this.y >= grid.length - 1) return false;
     const height = this.shape.length;
@@ -119,7 +118,7 @@ export default class Tetromino {
       this.shapes,
       this.currentShapeIndex,
       this.x,
-      this.y,
+      this.y
     );
   }
 }
