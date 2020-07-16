@@ -1,0 +1,69 @@
+@keyframes bg-animation {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+@keyframes hue-rotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(35deg);
+  }
+}
+
+@font-face {
+  font-family: 'MinecraftTen';
+  src: url('assets/MinecraftTen.ttf') format('truetype');
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: linear-gradient(
+    45deg,
+    #0652dd,
+    #ea2027,
+    #b53471,
+    #1289a7,
+    #009432
+  );
+  background-size: 400%;
+  animation: bg-animation 20s infinite alternate;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+}
+
+h1 {
+  position: absolute;
+  width: 100vw;
+  margin: auto;
+  top: 15px;
+  color: white;
+  font-family: 'MinecraftTen';
+  font-style: italic;
+  font-size: 75px;
+  filter: blur(0px);
+}
+
+h1#blur {
+  filter: blur(10px);
+}
+
+canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid black;
+  background: black;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation: hue-rotate 3s infinite alternate;
+}

@@ -1,31 +1,31 @@
 // @flow
 
 // From https://codepen.io/hendrysadrak/pen/VYZQYv
-CanvasRenderingContext2D.prototype.roundRect = function (
-  x,
-  y,
-  width,
-  height,
-  radius
+export function roundRect(
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  radius: number,
+  ctx: CanvasRenderingContext2D,
 ) {
   if (width < 2 * radius) radius = width / 2;
   if (height < 2 * radius) radius = height / 2;
-  this.beginPath();
-  this.moveTo(x + radius, y);
-  this.arcTo(x + width, y, x + width, y + height, radius);
-  this.arcTo(x + width, y + height, x, y + height, radius);
-  this.arcTo(x, y + height, x, y, radius);
-  this.arcTo(x, y, x + width, y, radius);
-  this.closePath();
-  return this;
-};
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.closePath();
+}
 
 export function line(
   x1: number,
   y1: number,
   x2: number,
   y2: number,
-  ctx: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D,
 ) {
   ctx.beginPath();
   ctx.lineWidth = 5;
@@ -37,7 +37,7 @@ export function line(
 export function generateGrid<T>(
   cols: number,
   rows: number,
-  val?: T
+  val?: T,
 ): Array<Array<T>> {
   return Array(rows)
     .fill(undefined)
@@ -50,14 +50,11 @@ export function square(
   width: number,
   height: number,
   color: string,
-  ctx: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D,
 ) {
-  // ctx.beginPath();
-  // ctx.fillRect(x, y, width, height);
-  ctx.roundRect(x, y, width, height, 15);
+  roundRect(x, y, width, height, 15, ctx);
   ctx.fillStyle = color;
   ctx.fill();
-  // ctx.stroke();
 }
 
 // From https://stackoverflow.com/a/4550514/9723899

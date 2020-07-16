@@ -47,12 +47,22 @@ export default class Tetromino {
     this.setPos(this.x, this.y + 1);
   }
 
+  goLeft() {
+    this.setPos(this.x - 1, this.y);
+  }
+
+  goRight() {
+    this.setPos(this.x + 1, this.y);
+  }
+
   canBeThere(
     xToTest: number,
     yToTest: number,
     grid: Array<Array<any>>,
   ): boolean {
-    if (this.y + 1 >= grid.length - 1) return false;
+    if (this.y >= grid.length - 1) return false;
+    if (this.x >= grid[0].length - 1) return false;
+    if (this.x < 0) return false;
     const height = this.shape.length;
     const width = this.shape[0].length;
     for (let y = 0; y < height; y++) {

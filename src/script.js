@@ -1,6 +1,7 @@
 // @flow
 
 import Game from './game';
+import './styles.css';
 
 const canvas: HTMLCanvasElement = (document.querySelector('canvas'): any);
 const ctx = canvas.getContext('2d');

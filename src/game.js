@@ -1,10 +1,9 @@
 // @flow
 
-import { generateGrid, line, randomInArray, square } from "./utils";
-
-import Tetromino from "./tetromino";
-import ms from "ms.macro";
-import { tetrominos } from "./tetrominos";
+import ms from 'ms.macro';
+import Tetromino from './tetromino';
+import { tetrominos } from './tetrominos';
+import { generateGrid, line, randomInArray, square } from './utils';
 
 export default class Game {
   context: CanvasRenderingContext2D;
@@ -26,6 +25,43 @@ export default class Game {
     this.lastGoDown = new Date();
     this.done = false;
     this.addTetromino(randomInArray(tetrominos));
+
+    window.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'ArrowDown':
+          if (
+            this.tetromino.canBeThere(
+              this.tetromino.x,
+              this.tetromino.y + 1,
+              this.staticGrid,
+            )
+          )
+            this.tetromino.goDown();
+          break;
+        case 'ArrowUp':
+          break;
+        case 'ArrowLeft':
+          if (
+            this.tetromino.canBeThere(
+              this.tetromino.x - 1,
+              this.tetromino.y,
+              this.staticGrid,
+            )
+          )
+            this.tetromino.goLeft();
+          break;
+        case 'ArrowRight':
+          if (
+            this.tetromino.canBeThere(
+              this.tetromino.x + 1,
+              this.tetromino.y,
+              this.staticGrid,
+            )
+          )
+            this.tetromino.goRight();
+          break;
+      }
+    });
   }
 
   addTetromino(tetromino: Tetromino) {
@@ -33,7 +69,7 @@ export default class Game {
     this.tetromino.setPos(
       Math.floor(this.cols / 2) -
         Math.floor(this.tetromino.shape[0].length / 2),
-      0
+      0,
     );
   }
 
@@ -50,12 +86,12 @@ export default class Game {
 
   update() {
     if (this.done) return;
-    if (this.lastGoDown.getTime() + ms("0.5s") < Date.now()) {
+    if (this.lastGoDown.getTime() + ms('0.5s') < Date.now()) {
       if (
         this.tetromino.canBeThere(
           this.tetromino.x,
           this.tetromino.y + 1,
-          this.staticGrid
+          this.staticGrid,
         )
       )
         this.tetromino.goDown();
@@ -66,7 +102,7 @@ export default class Game {
           !this.tetromino.canBeThere(
             this.tetromino.x,
             this.tetromino.y,
-            this.staticGrid
+            this.staticGrid,
           )
         )
           this.done = true;
@@ -88,8 +124,8 @@ export default class Game {
           y * ySpacing,
           xSpacing,
           ySpacing,
-          color ?? "#242424",
-          this.context
+          color ?? '#242424',
+          this.context,
         );
       });
     });
@@ -102,7 +138,7 @@ export default class Game {
             xSpacing,
             ySpacing,
             color,
-            this.context
+            this.context,
           );
         }
       });

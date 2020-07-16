@@ -1,8 +1,12 @@
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import fs from 'fs';
 import { minify } from 'html-minifier';
-import resolve from '@rollup/plugin-node-resolve';
+import copy from 'rollup-plugin-copy';
+import css from 'rollup-plugin-css-only';
+import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve';
 import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
@@ -31,6 +35,10 @@ export default {
     }),
     resolve(),
     commonjs(),
+    copy({
+      targets: [{ src: 'src/assets/**', dest: 'dist/assets/' }],
+    }),
+    css({ output: 'dist/bundle.css' }),
     minifyHtml('src/index.html', 'dist/index.html', {
       collapseWhitespace: true,
       collapseInlineTagWhitespace: true,
@@ -45,5 +53,15 @@ export default {
       useShortDoctype: true,
     }),
     production && terser(),
+    !production &&
+      serve({
+        contentBase: 'dist',
+        open: true,
+      }),
+    !production &&
+      livereload({
+        watch: 'dist',
+        verbose: true,
+      }),
   ],
 };
