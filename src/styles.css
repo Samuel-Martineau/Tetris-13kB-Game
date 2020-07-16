@@ -17,8 +17,8 @@
 }
 
 @font-face {
-  font-family: 'MinecraftTen';
-  src: url('assets/MinecraftTen.ttf') format('truetype');
+  font-family: "MinecraftTen";
+  src: url("assets/MinecraftTen.ttf") format("truetype");
 }
 
 html,
@@ -46,10 +46,11 @@ h1 {
   margin: auto;
   top: 15px;
   color: white;
-  font-family: 'MinecraftTen';
+  font-family: "MinecraftTen";
   font-style: italic;
   font-size: 75px;
   filter: blur(0px);
+  user-select: none;
 }
 
 h1#blur {

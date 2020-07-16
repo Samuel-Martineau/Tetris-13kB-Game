@@ -1,6 +1,6 @@
 // @flow
 
-import { generateGrid } from './utils';
+import { generateGrid } from "./utils";
 
 export default class Tetromino {
   color: string;
@@ -15,7 +15,7 @@ export default class Tetromino {
     shapes: Array<Array<Array<any>>>,
     currentShapeIndex?: number,
     x?: number,
-    y?: number,
+    y?: number
   ) {
     this.currentShapeIndex = currentShapeIndex ?? 0;
     this.x = x ?? 0;
@@ -58,11 +58,9 @@ export default class Tetromino {
   canBeThere(
     xToTest: number,
     yToTest: number,
-    grid: Array<Array<any>>,
+    grid: Array<Array<any>>
   ): boolean {
     if (this.y >= grid.length - 1) return false;
-    if (this.x >= grid[0].length - 1) return false;
-    if (this.x < 0) return false;
     const height = this.shape.length;
     const width = this.shape[0].length;
     for (let y = 0; y < height; y++) {
@@ -76,6 +74,16 @@ export default class Tetromino {
       }
     }
     return true;
+  }
+
+  isOnLeftSide(grid: Array<Array<any>>): boolean {
+    if (this.x <= 0) return true;
+    return false;
+  }
+
+  isOnRightSide(grid: Array<Array<any>>): boolean {
+    if (this.x >= grid[0].length - this.shape[0].length) return true;
+    return false;
   }
 
   rotateRight() {
@@ -97,7 +105,7 @@ export default class Tetromino {
       this.shapes,
       this.currentShapeIndex,
       this.x,
-      this.y,
+      this.y
     );
   }
 }
