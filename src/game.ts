@@ -225,7 +225,7 @@ export default class Game {
       this.lastGoDown = new Date();
     }
     this.movingGrid = this.tetromino.draw(this.movingGrid, this.staticGrid);
-    if (this.lastNewTetromino.getTime() + ms('2.5s') < Date.now())
+    if (this.lastNewTetromino.getTime() + this.speed * 6 < Date.now())
       this.movingGrid = this.nextTetromino.drawPreview(this.movingGrid);
     this.clearFullRows();
   }
