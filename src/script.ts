@@ -33,7 +33,6 @@ function start() {
   let baseY, buttonWidth, buttonY, buttonHeight, borderSize, buttonX;
 
   const startBtn = button(canvas, (listener) => {
-    console.log(listener);
     canvas.removeEventListener('click', listener);
     audio.play();
     play();

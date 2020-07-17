@@ -1,25 +1,5 @@
 // @flow
 
-// From https://codepen.io/hendrysadrak/pen/VYZQYv
-export function roundRect(
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  radius: number,
-  ctx: CanvasRenderingContext2D,
-) {
-  if (width < 2 * radius) radius = width / 2;
-  if (height < 2 * radius) radius = height / 2;
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.arcTo(x + width, y, x + width, y + height, radius);
-  ctx.arcTo(x + width, y + height, x, y + height, radius);
-  ctx.arcTo(x, y + height, x, y, radius);
-  ctx.arcTo(x, y, x + width, y, radius);
-  ctx.closePath();
-}
-
 export function line(
   x1: number,
   y1: number,
@@ -44,7 +24,7 @@ export function generateGrid<T>(
     .map(() => Array(cols).fill(val));
 }
 
-export function square(
+export function roundRect(
   x: number,
   y: number,
   width: number,
@@ -52,7 +32,18 @@ export function square(
   color: string,
   ctx: CanvasRenderingContext2D,
 ) {
-  roundRect(x, y, width, height, ctx.canvas.width / 35, ctx);
+  // From https://codepen.io/hendrysadrak/pen/VYZQYv
+  let radius: number = ctx.canvas.width / 35;
+  if (width < 2 * radius) radius = width / 2;
+  if (height < 2 * radius) radius = height / 2;
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.closePath();
+
   ctx.fillStyle = color;
   ctx.fill();
 }
@@ -105,7 +96,7 @@ export function button(
     _y = y;
     _width = width;
     _height = height;
-    square(
+    roundRect(
       x,
       y - borderSize / 2,
       width + borderSize,
@@ -113,7 +104,7 @@ export function button(
       'white',
       ctx,
     );
-    square(canvas.width / 2 - width / 2, y, width, height, '#0652dd', ctx);
+    roundRect(canvas.width / 2 - width / 2, y, width, height, '#0652dd', ctx);
     text(
       `${canvas.width / 13}px MinecraftTen`,
       'white',

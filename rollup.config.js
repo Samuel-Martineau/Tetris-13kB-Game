@@ -1,11 +1,11 @@
 import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import copy from "rollup-plugin-copy";
-import css from "rollup-plugin-css-only";
 import fs from "fs";
 import json from "@rollup/plugin-json";
 import livereload from "rollup-plugin-livereload";
 import { minify } from "html-minifier";
+import postcss from "rollup-plugin-postcss";
 import resolve from "@rollup/plugin-node-resolve";
 import serve from "rollup-plugin-serve";
 import { terser } from "rollup-plugin-terser";
@@ -41,7 +41,6 @@ export default {
     copy({
       targets: [{ src: "src/assets/**", dest: "dist/assets/" }],
     }),
-    css({ output: "dist/bundle.css" }),
     minifyHtml("src/index.html", "dist/index.html", {
       collapseWhitespace: true,
       collapseInlineTagWhitespace: true,
@@ -54,6 +53,10 @@ export default {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true,
       useShortDoctype: true,
+    }),
+    postcss({
+      extract: "bundle.css",
+      minimize: production,
     }),
     production && terser(),
     !production &&
