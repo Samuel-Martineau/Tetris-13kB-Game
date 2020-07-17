@@ -1,13 +1,13 @@
 // @ts-ignore TS6133
-import ms from 'ms.macro';
+import ms from "ms.macro";
 // @ts-ignore TS6133
-import Tetromino from './tetromino.ts';
+import Tetromino from "./tetromino.ts";
 // @ts-ignore TS6133
-import { I, J, L, O, S, T, Z } from './tetrominos.ts';
+import { I, J, L, O, S, T, Z } from "./tetrominos.ts";
 // @ts-ignore TS6133
-import { generateGrid, line, randomInArray, square } from './utils.ts';
+import { generateGrid, line, randomInArray, square } from "./utils.ts";
 
-const audio = new Audio('assets/pook.mp3');
+const audio = new Audio("assets/pook.mp3");
 
 export default class Game {
   private tetromino: Tetromino;
@@ -16,78 +16,80 @@ export default class Game {
   private movingGrid: Array<Array<any>>;
   private lastGoDown: Date;
   private lastNewTetromino: Date;
+  private speed: number;
   private done: boolean;
 
   constructor(
     private cols: number,
     private rows: number,
     private context: CanvasRenderingContext2D,
-    private onEnd: () => void,
+    private onEnd: () => void
   ) {
     this.staticGrid = generateGrid(cols, rows, null);
     this.movingGrid = generateGrid(cols, rows, null);
     this.lastGoDown = new Date();
     this.lastNewTetromino = new Date();
+    this.speed = ms("0.5s");
     this.done = false;
     this.tetromino = Game.randomTetromino;
     this.setupTetromino(this.tetromino);
     this.nextTetromino = Game.randomTetromino;
     this.setupTetromino(this.nextTetromino);
 
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener("keydown", (e) => {
       switch (e.key) {
-        case 's':
+        case "s":
           while (
             this.tetromino.canBeThere(
               this.tetromino.x,
               this.tetromino.y + 1,
-              this.staticGrid,
+              this.staticGrid
             )
           )
             this.tetromino.goDown();
           break;
-        case 'w':
+        case "w":
           break;
-        case 'a':
+        case "a":
           if (
             !this.tetromino.isOnLeftSide(this.staticGrid) &&
             this.tetromino.canBeThere(
               this.tetromino.x - 1,
               this.tetromino.y,
-              this.staticGrid,
+              this.staticGrid
             )
           )
             this.tetromino.goLeft();
           break;
-        case 'd':
+        case "d":
           if (
             !this.tetromino.isOnRightSide(this.staticGrid) &&
             this.tetromino.canBeThere(
               this.tetromino.x + 1,
               this.tetromino.y,
-              this.staticGrid,
+              this.staticGrid
             )
           )
             this.tetromino.goRight();
           break;
-        case 'e':
+        case "e":
           this.tetromino.rotateLeft();
           if (
             !this.tetromino.canBeThere(
               this.tetromino.x,
               this.tetromino.y,
-              this.staticGrid,
+              this.staticGrid
             )
           )
             this.tetromino.rotateRight();
           break;
-        case 'q':
+        case "q":
           this.tetromino.rotateRight();
           if (
             !this.tetromino.canBeThere(
               this.tetromino.x,
               this.tetromino.y,
-              this.staticGrid,
+              this.staticGrid
             )
           )
             this.tetromino.rotateLeft();
@@ -111,7 +113,7 @@ export default class Game {
   setupTetromino(tetromino: Tetromino) {
     tetromino.setPos(
       Math.floor(this.cols / 2) - Math.floor(tetromino.shape[0].length / 2),
-      0,
+      0
     );
   }
 
@@ -128,17 +130,18 @@ export default class Game {
 
   update() {
     if (this.done) return;
-    if (this.lastGoDown.getTime() + ms('0.5s') < Date.now()) {
+    if (this.lastGoDown.getTime() + this.speed < Date.now()) {
       if (
         this.tetromino.canBeThere(
           this.tetromino.x,
           this.tetromino.y + 1,
-          this.staticGrid,
+          this.staticGrid
         )
       )
         this.tetromino.goDown();
       else {
         audio.play();
+        this.speed -= ms("0.01s");
         this.lastNewTetromino = new Date();
         this.moveTetrominoToStaticGrid();
         this.tetromino = this.nextTetromino;
@@ -148,7 +151,7 @@ export default class Game {
           !this.tetromino.canBeThere(
             this.tetromino.x,
             this.tetromino.y,
-            this.staticGrid,
+            this.staticGrid
           )
         ) {
           this.done = true;
@@ -159,7 +162,7 @@ export default class Game {
       this.lastGoDown = new Date();
     }
     this.movingGrid = this.tetromino.draw(this.movingGrid, this.staticGrid);
-    if (this.lastNewTetromino.getTime() + ms('2.5s') < Date.now())
+    if (this.lastNewTetromino.getTime() + ms("2.5s") < Date.now())
       this.movingGrid = this.nextTetromino.drawPreview(this.movingGrid);
     this.clearFullRows();
   }
@@ -168,9 +171,9 @@ export default class Game {
     for (let index = 0; index < this.staticGrid.length; index++) {
       const row = this.staticGrid[index];
       if (!row.includes(null)) {
-        this.staticGrid[index] = Array(this.cols).fill('white');
+        this.staticGrid[index] = Array(this.cols).fill("white");
       }
-      if (row.every((color) => color === 'white')) {
+      if (row.every((color) => color === "white")) {
         audio.play();
         this.staticGrid[index] = Array(this.cols).fill(null);
         for (let i = index; i > 0; i--)
@@ -191,8 +194,8 @@ export default class Game {
           y * ySpacing,
           xSpacing,
           ySpacing,
-          color ?? '#242424',
-          this.context,
+          color ?? "#242424",
+          this.context
         );
       });
     });
@@ -205,7 +208,7 @@ export default class Game {
             xSpacing,
             ySpacing,
             color,
-            this.context,
+            this.context
           );
         }
       });
