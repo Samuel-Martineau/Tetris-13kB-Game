@@ -15,8 +15,6 @@ import {
 
 const audio = new Audio('assets/pook.mp3');
 
-const canvas: HTMLCanvasElement = document.querySelector('canvas');
-
 export default class Game {
   private tetromino: Tetromino;
   private nextTetromino: Tetromino;
@@ -109,12 +107,20 @@ export default class Game {
     });
 
     window.addEventListener('mousemove', (e) => {
+      let canvas = this.context.canvas;
       const { x: mx } = getRelativeMousePos(canvas, e);
-      let newSidePos = Math.floor(mx / cols - 1);
+      let width: number;
+      if (window.devicePixelRatio > 1) {
+        width = canvas.width / window.devicePixelRatio;
+      } else {
+        width = canvas.width;
+      }
+      const xSpacing = width / this.cols;
+      let newSidePos = Math.floor(mx / xSpacing);
       if (newSidePos < 0) {
         newSidePos = 0;
-      } else if (newSidePos >= cols) {
-        newSidePos = cols - this.tetromino.shape[0].length;
+      } else if (newSidePos >= this.cols) {
+        newSidePos = this.cols - this.tetromino.shape[0].length;
       }
       if (
         this.tetromino.canBeThere(newSidePos, this.tetromino.y, this.staticGrid)
