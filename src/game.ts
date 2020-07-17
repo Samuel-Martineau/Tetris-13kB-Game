@@ -110,7 +110,7 @@ export default class Game {
 
     window.addEventListener('mousemove', (e) => {
       const { x: mx } = getRelativeMousePos(canvas, e);
-      let newSidePos = Math.floor(mx / cols);
+      let newSidePos = Math.floor(mx / cols - 1);
       if (newSidePos < 0) {
         newSidePos = 0;
       } else if (newSidePos >= cols) {
