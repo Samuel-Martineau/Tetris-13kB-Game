@@ -1,20 +1,20 @@
-import "./styles.css";
-
 // @ts-ignore TS6133
-import Game from "./game.ts";
+import Game from './game.ts';
+import './styles.css';
 // @ts-ignore TS6133
-import { text, button } from "./utils.ts";
+import { button, text } from './utils.ts';
 
-const audioContext = new AudioContext();
-const audioElement: HTMLAudioElement = document.querySelector("audio");
-const track = audioContext.createMediaElementSource(audioElement);
+try {
+  const audioContext = new AudioContext();
+  const audioElement: HTMLAudioElement = document.querySelector('audio');
+  const track = audioContext.createMediaElementSource(audioElement);
+  audioElement.play();
+} catch {}
 
-audioElement.play();
+const audio = new Audio('assets/pook.mp3');
 
-const audio = new Audio("assets/pook.mp3");
-
-const canvas: HTMLCanvasElement = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const canvas: HTMLCanvasElement = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
 
 ctx.fillRect(20, 20, 150, 100);
 
@@ -32,10 +32,17 @@ function start() {
   state = State.Start;
   let baseY, buttonWidth, buttonY, buttonHeight, borderSize, buttonX;
 
+  const startBtn = button(canvas, (listener) => {
+    console.log(listener);
+    canvas.removeEventListener('click', listener);
+    audio.play();
+    play();
+  });
+
   function frame() {
     if (state === State.Start) requestAnimationFrame(frame);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#242424";
+    ctx.fillStyle = '#242424';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     baseY = canvas.height / 2 - canvas.height / 15;
@@ -47,63 +54,46 @@ function start() {
 
     text(
       `italic ${canvas.width / 6}px MinecraftTen`,
-      "white",
-      "center",
-      "Tetris",
+      'white',
+      'center',
+      'Tetris',
       canvas.width / 2,
       baseY,
-      ctx
+      ctx,
     );
 
     text(
       `italic ${canvas.width / 6}px MinecraftTen`,
-      "rgba(255,255,255,0.25)",
-      "center",
-      "Tetris",
+      'rgba(255,255,255,0.25)',
+      'center',
+      'Tetris',
       canvas.width / 2 + canvas.width / 80,
       baseY + canvas.width / 80,
-      ctx
+      ctx,
     );
 
     text(
       `italic ${canvas.width / 13}px MinecraftTen`,
-      "white",
-      "center",
-      "In 13 kB",
+      'white',
+      'center',
+      'In 13 kB',
       canvas.width / 2,
       baseY + canvas.width / 10,
-      ctx
+      ctx,
     );
 
-    button(
-      "Start !",
+    startBtn(
+      'Start !',
       buttonX,
       buttonY,
       buttonWidth,
       buttonHeight,
       borderSize,
       ctx,
-      canvas
     );
   }
 
   frame();
-
-  function onButtonClick(e) {
-    const { x: mx, y: my } = getMousePos(canvas, e);
-    if (
-      mx * (window.devicePixelRatio ?? 1) > buttonX &&
-      mx * (window.devicePixelRatio ?? 1) < buttonX + buttonWidth &&
-      my * (window.devicePixelRatio ?? 1) > buttonY &&
-      my * (window.devicePixelRatio ?? 1) < buttonY + buttonHeight
-    ) {
-      canvas.removeEventListener("click", onButtonClick);
-      audio.play();
-      play();
-    }
-  }
-
-  canvas.addEventListener("click", onButtonClick);
 }
 
 function play() {
@@ -124,10 +114,16 @@ function end() {
   state = State.End;
   let baseY, buttonWidth, buttonY, buttonHeight, borderSize, buttonX;
 
+  const endBtn = button(canvas, (listener) => {
+    canvas.removeEventListener('click', listener);
+    audio.play();
+    play();
+  });
+
   function frame() {
     if (state === State.End) requestAnimationFrame(frame);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#242424";
+    ctx.fillStyle = '#242424';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     baseY = canvas.height / 2 - canvas.height / 15;
@@ -139,72 +135,46 @@ function end() {
 
     text(
       `italic ${canvas.width / 6}px MinecraftTen`,
-      "white",
-      "center",
-      "Tetris",
+      'white',
+      'center',
+      'Tetris',
       canvas.width / 2,
       baseY,
-      ctx
+      ctx,
     );
 
     text(
       `italic ${canvas.width / 6}px MinecraftTen`,
-      "rgba(255,255,255,0.25)",
-      "center",
-      "Tetris",
+      'rgba(255,255,255,0.25)',
+      'center',
+      'Tetris',
       canvas.width / 2 + canvas.width / 80,
       baseY + canvas.width / 80,
-      ctx
+      ctx,
     );
 
     text(
       `italic ${canvas.width / 13}px MinecraftTen`,
-      "white",
-      "center",
-      "Game Over",
+      'white',
+      'center',
+      'Game Over',
       canvas.width / 2,
       baseY + canvas.width / 10,
-      ctx
+      ctx,
     );
 
-    button(
-      "Restart",
+    endBtn(
+      'Restart',
       buttonX,
       buttonY,
       buttonWidth,
       buttonHeight,
       borderSize,
       ctx,
-      canvas
     );
   }
 
   frame();
-
-  function onButtonClick(e) {
-    const { x: mx, y: my } = getMousePos(canvas, e);
-    if (
-      mx * (window.devicePixelRatio ?? 1) > buttonX &&
-      mx * (window.devicePixelRatio ?? 1) < buttonX + buttonWidth &&
-      my * (window.devicePixelRatio ?? 1) > buttonY &&
-      my * (window.devicePixelRatio ?? 1) < buttonY + buttonHeight
-    ) {
-      canvas.removeEventListener("click", onButtonClick);
-      audio.play();
-      play();
-    }
-  }
-
-  canvas.addEventListener("click", onButtonClick);
-}
-
-// From https://stackoverflow.com/a/17130415/9723899
-function getMousePos(canvas, e) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: e.clientX - rect.left,
-    y: e.clientY - rect.top,
-  };
 }
 
 function resize() {
@@ -222,12 +192,12 @@ function resize() {
   if (window.devicePixelRatio > 1) {
     canvas.width = width * window.devicePixelRatio;
     canvas.height = height * window.devicePixelRatio;
-    canvas.style.width = width + "px";
-    canvas.style.height = height + "px";
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
   } else {
     canvas.width = width;
     canvas.height = height;
   }
 }
-window.addEventListener("resize", resize);
+window.addEventListener('resize', resize);
 resize();
