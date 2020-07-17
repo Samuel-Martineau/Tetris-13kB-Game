@@ -80,6 +80,10 @@ export default class Tetromino {
     this.setPos(this.x + 1, this.y);
   }
 
+  goOnSide(x: number) {
+    this.setPos(x, this.y);
+  }
+
   canBeThere(
     xToTest: number,
     yToTest: number,
@@ -102,13 +106,9 @@ export default class Tetromino {
     return true;
   }
 
-  isOnLeftSide(grid: Array<Array<any>>): boolean {
-    if (this.x <= 0) return true;
-    return false;
-  }
-
-  isOnRightSide(grid: Array<Array<any>>): boolean {
-    if (this.x >= grid[0].length - this.shape[0].length) return true;
+  isOnSide(xToTest: number, grid: Array<Array<any>>): boolean {
+    if (xToTest < 0) return true;
+    if (xToTest > grid[0].length - this.shape[0].length) return true;
     return false;
   }
 

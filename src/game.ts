@@ -60,7 +60,7 @@ export default class Game {
           break;
         case 'a':
           if (
-            !this.tetromino.isOnLeftSide(this.staticGrid) &&
+            !this.tetromino.isOnSide(this.tetromino.x - 1, this.staticGrid) &&
             this.tetromino.canBeThere(
               this.tetromino.x - 1,
               this.tetromino.y,
@@ -71,14 +71,17 @@ export default class Game {
           break;
         case 'd':
           if (
-            !this.tetromino.isOnRightSide(this.staticGrid) &&
+            !this.tetromino.isOnSide(this.tetromino.x + 1, this.staticGrid) &&
             this.tetromino.canBeThere(
               this.tetromino.x + 1,
               this.tetromino.y,
               this.staticGrid,
             )
-          )
+          ) {
+            console.log(this.tetromino.x);
             this.tetromino.goRight();
+          }
+
           break;
         case 'e':
           this.tetromino.rotateLeft();
@@ -105,9 +108,33 @@ export default class Game {
       }
     });
 
-    canvas.addEventListener('mousemove', (e) => {
-      console.log(e);
+    window.addEventListener('mousemove', (e) => {
+      const { x: mx } = getRelativeMousePos(canvas, e);
+      let newSidePos = Math.floor(mx / cols);
+      if (newSidePos < 0) {
+        newSidePos = 0;
+      } else if (newSidePos >= cols) {
+        newSidePos = cols - this.tetromino.shape[0].length;
+      }
+      if (
+        this.tetromino.canBeThere(newSidePos, this.tetromino.y, this.staticGrid)
+      ) {
+        this.tetromino.goOnSide(newSidePos);
+      }
     });
+
+    setTimeout(() => {
+      window.addEventListener('click', (e) => {
+        while (
+          this.tetromino.canBeThere(
+            this.tetromino.x,
+            this.tetromino.y + 1,
+            this.staticGrid,
+          )
+        )
+          this.tetromino.goDown();
+      });
+    }, 500);
 
     // canvas.addEventListener('mousedown', hold);
     // canvas.addEventListener('mouseup', hold);
