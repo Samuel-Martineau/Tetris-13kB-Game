@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: cat package.json
-      # - id: package-version
-      #   uses: martinbeentjes/npm-get-version-action@master
       - name: get version
         id: version
         uses: notiz-dev/github-action-json-property@release
