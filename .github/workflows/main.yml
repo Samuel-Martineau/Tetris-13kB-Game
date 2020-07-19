@@ -1,0 +1,39 @@
+on: [push]
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      - name: Install advzip
+        run: sudo apt-get install -y advancecomp
+      - name: Build project
+        run: yarn
+      - run: yarn prod
+      - run: advzip -a -4 tetris.zip dist
+      - id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+        with:
+          path: ./package.json
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.package-version.outputs.current-version}}
+          release_name: Release ${{ steps.package-version.outputs.current-version}}
+          body: ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
+      - uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tetris.zip
+          asset_name: tetris.zip
+          asset_content_type: application/zip
