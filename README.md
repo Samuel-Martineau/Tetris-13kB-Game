@@ -2,7 +2,7 @@
 
 This is a beautiful tetris made to be under 13kB!
 
-Try it out : [PLAY](tetris-13kb-game.netlify.app)
+Try it out : [PLAY](https://tetris-13kb-game.netlify.app)
 
 ## Includes
 
