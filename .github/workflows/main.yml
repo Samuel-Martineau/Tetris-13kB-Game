@@ -2,9 +2,19 @@ on: [push]
 
 jobs:
   create_release:
+    name: Create
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: cat package.json
+      # - id: package-version
+      #   uses: martinbeentjes/npm-get-version-action@master
+      - name: get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: package.json
+          prop_path: version
       - uses: actions/setup-node@v1
         with:
           node-version: 14
@@ -14,18 +24,14 @@ jobs:
         run: yarn
       - run: yarn prod
       - run: advzip -a -4 tetris.zip dist
-      - id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
-        with:
-          path: ./package.json
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.package-version.outputs.current-version}}
-          release_name: Release ${{ steps.package-version.outputs.current-version}}
+          tag_name: ${{ steps.version.outputs.prop }}
+          release_name: Release ${{ steps.version.outputs.prop }}
           body: ${{ github.event.head_commit.message }}
           draft: false
           prerelease: false
