@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: cat package.json
       - name: get version
         id: version
         uses: notiz-dev/github-action-json-property@release
