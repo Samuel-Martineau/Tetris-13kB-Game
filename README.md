@@ -15,4 +15,4 @@ Try it out : [PLAY](https://tetris-13kb-game.netlify.app)
 ## Authors
 
 - **[Samuel Martineau](https://github.com/Samuel-Martineau/)**
-- **[Vu Dang Khoa Chiem](https://github.com/Doudou8)**
+- **[Vu Dang Khoa Chiem](https://github.com/dkchiem)**
